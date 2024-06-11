@@ -1,0 +1,76 @@
+{% extends 'base_app/base.html' %}
+{% load static %}
+
+{% block title %}
+Home
+{% endblock title %}
+
+{% block css %}
+<style>
+  #register_banner {
+    background-color: #5cb85c;
+    color: white;
+  }
+
+  .card {
+    background-color: #f5f5f5;
+    height: 20rem;
+  }
+
+  .main {
+    background-image: url('{% static "/images/home_bg.jpg" %}');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="d-flex flex-column h-100 main">
+  <!-- Render Mock Data -->
+  <div class="d-flex gap-3">
+    {% for vh in vehicle_mock_data %}
+    <div class="container mt-4">
+      <!-- Vehicle Information Card -->
+      <div class="card">
+          <div class="card-body">
+              <!-- Vehicle Name -->
+              <h5 class="card-title">{{ vh.vehicle_name }}</h5>
+              <hr>
+              <p class="text-secondary">
+                {{ vh.vehicle_desc }}
+              </p>
+              <!-- Vehicle Type Icon -->
+              <p class="card-text"><i class="fas fa-car"></i> Vehicle Type: {{ vh.vehicle_type }}</p>
+              <!-- People Accommodate Icon -->
+              <p class="card-text"><i class="fas fa-users"></i> {{ vh.vehicle_seater }}</p>
+              <!-- Availability Icon -->
+              <p class="card-text"><i class="fas fa-calendar-check"></i> Availability: {{ vh.is_available|yesno:"✔,❌" }}</p>
+              <!-- Vehicle Company Icon -->
+              <p class="card-text"><i class="fas fa-building"></i> Vehicle Company: {{ vh.vehicle_company }}</p>
+          </div>
+      </div>
+      <!-- End Vehicle Information Card -->
+    </div>
+    {% endfor %}
+  </div>
+  
+  {% if request.user.is_authenticated and not request.user.is_renter %}
+  <div class="d-flex flex-column align-items-center my-5 py-4 bg-green" id="register_banner">
+      <div class="banner">
+        <h1 class="display-4">Register as a Rental Provider</h1>
+        <p class="lead text-center">Join our platform and start providing rental services today!</p>
+      </div>
+      
+      {% if is_already_requested %}
+        <button class="btn btn-disabled" disabled="disabled">You have already sent a request!</button>
+      {% else %}
+        <a class="btn btn-success" href="{% url 'create_register_as_renter' %}">
+          Register as a renter 
+        </a>
+      {% endif %}
+      {% endif %}
+    </div>
+</div>
+{% endblock content %}

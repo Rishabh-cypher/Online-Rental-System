@@ -1,0 +1,38 @@
+{% extends 'base_app/base.html' %}
+
+{% block title %}
+Admin - Renter Register Requests List
+{% endblock title %}
+
+{% block content %}
+
+<div class="list-wrapper d-flex flex-column align-items-md-center">
+  <h2>Renter Requests</h2>
+  {% for rq in requests %}
+  <div class="container mt-4 request_item">
+      <ul class="list-group">
+        <li class="list-group-item">
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+            <div>
+              <h5 class="mb-0 text-capitalize">{{ rq.application_user.first_name }} {{ rq.application_user.last_name }}</h5>
+              <p class="mb-0">Requested on: {{ rq.data_generated_on }}</p>
+            </div>
+            <div class="mt-2 mt-md-0 d-flex">
+              <form method="POST" action="{% url 'admin_renter_register_reject' %}">
+                {% csrf_token %}
+                <input type="hidden" name="request_id" value="{{ rq.reference_id }}">
+                <input type="submit" type="button" class="btn btn-danger me-2" value="Reject">
+              </form>
+              <form method="POST" action="{% url 'admin_renter_register_accept' %}">
+                {% csrf_token %}
+                <input type="hidden" name="request_id" value="{{ rq.reference_id }}">
+                <input type="submit" type="button" class="btn btn-success" value="Accept">
+              </form>
+            </div>
+          </div>
+        </li>
+      </ul>
+  </div>
+  {% endfor %}
+</div>
+{% endblock content %}

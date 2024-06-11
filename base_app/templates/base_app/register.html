@@ -1,0 +1,86 @@
+{% extends 'base_app/base.html' %}
+{% load static %}
+
+{% block title %}
+Register
+{% endblock title %}
+
+{% block css %}
+<style>
+.main {
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(255, 255, 255, 0)), url('{% static "/images/register_bg.jpg" %}');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.user-card {
+  background-color: transparent;
+  backdrop-filter: blur(8px);
+  color:white;
+  padding: 1rem 1rem;
+}
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="d-flex align-items-center h-100 main">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card user-card">
+          <div class="card-header d-flex justify-content-between">
+            <h4><i class="fas fa-user"></i> Register</h4>
+            <a type="button" class="btn btn-secondary" href="{% url 'home' %}">
+              <i class="fas fa-arrow-left"></i> Go Back
+            </a>
+          </div>
+          <div class="card-body">
+            <form method="POST" class="d-flex flex-column">
+              {% csrf_token %}
+              <div class="row mb-3">
+                <div class="col">
+                  <label for="firstName"><i class="fas fa-user"></i> First Name</label>
+                  <input type="text" class="form-control" id="firstName" name="first_name" placeholder="Enter First Name">
+                </div>
+                <div class="col">
+                  <label for="lastName"><i class="fas fa-user"></i> Last Name</label>
+                  <input type="text" class="form-control" id="lastName" name="last_name" placeholder="Enter Last Name">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col">
+                  <label for="username"><i class="fas fa-at"></i> Username</label>
+                  <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username">
+                </div>
+                <div class="col">
+                  <label for="phoneNumber"><i class="fas fa-phone"></i> Phone Number</label>
+                  <input type="tel" class="form-control" id="phoneNumber" name="phone_no" placeholder="Enter Phone Number">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col">
+                  <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                  <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email">
+                </div>
+                <div class="col">
+                  <label for="password"><i class="fas fa-lock"></i> Password</label>
+                  <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                </div>
+              </div>
+              <div class="form-check mb-3">
+                <input type="checkbox" class="form-check-input" id="agreeTerms" name="agreeTerms">
+                <label class="form-check-label" for="agreeTerms">I agree to the terms and conditions</label>
+              </div>
+              <button type="submit" class="btn btn-success btn-block rounded-pill"><i class="fas fa-user-plus"></i> Register</button>
+            </form>
+          </div>
+          <center>
+            <span>Already have an account? <a href="{% url 'login' %}">Login now.</a></span>
+          </center>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
